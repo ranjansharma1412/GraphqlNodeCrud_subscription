@@ -31,13 +31,10 @@ async function startServer() {
     context: async ({ req }) => {
       const token = req.headers.authorization || '';
       if (token) {
-        console.log("token====", token)  
         let decoded = jwt.verify(token, JWT_SECRET_KEY);
-        console.log("===decoded==", decoded);
         // Try to retrieve a user with the token
         const user = await User.findOne({ _id: decoded._id })
         if (!user) throw new AuthenticationError('you must be logged in');
-        console.log("===decoded==user", user);
         // Add the user to the context
         return { user };
       }
